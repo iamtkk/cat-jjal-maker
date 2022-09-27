@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>고양이 가라사대</title>
+    <title>네오위즈</title>
   </head>
   <style>
     body {
@@ -25,7 +25,7 @@
   </style>
   <body>
     <div id="app"></div>
-    <!-- <h1>1번째 고양이 가라사대2</h1>
+    <!-- <h1>1번째 네오위즈</h1>
     <form>
       <input type="text" name="name" placeholder="영어 대사를 입력해주세요" />
       <button type="submit">생성</button>
@@ -41,8 +41,6 @@
     ></script>
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
     <script type="text/babel">
-      console.log('야옹');
-
       function CatItem(props) {
         return (
           <li>
@@ -64,7 +62,7 @@
       const MainCard = ({ img, handleHeartClick }) => {
         return (
           <div className="main-card">
-            <img src={img} alt="고양이" width="400" />
+            <img src={img} alt="네오위즈" width="400" />
             <button onClick={handleHeartClick}>🤍</button>
           </div>
         );
@@ -96,12 +94,12 @@
       }
 
       const App = () => {
-        const CAT1 =
-          'https://cataas.com/cat/60b73094e04e18001194a309/says/react';
+        const CAT1 = 
+          "https://i.ytimg.com/vi/nh5-_w8YOQQ/maxresdefault.jpg";
         const CAT2 =
-          'https://cataas.com/cat/5e9970351b7a400011744233/says/inflearn';
+          "https://blog.kakaocdn.net/dn/eubFKc/btqDGIudiQi/1q4NQYoC7SLUNQes56RhP0/img.jpg";
         const CAT3 =
-          'https://cataas.com/cat/595f280b557291a9750ebf65/says/JavaScript';
+          "http://photo.sentv.co.kr/photo/2022/07/11/20220711111729.jpg";
 
         const [counter, setCounter] = React.useState(1);
         console.log('카운터', counter);
@@ -123,7 +121,7 @@
 
         return (
           <div>
-            <Title>{counter}번째 고양이 가라사대</Title>
+            <Title>{counter}번째</Title>
             <Form handleFormSubmit={handleFormSubmit} />
             <MainCard img={mainCat} handleHeartClick={handleHeartClick} />
             <Favorites favorites={favorites} />
