@@ -44,9 +44,9 @@
         return <h1>{props.children}</h1>;
       };
 
-      const Form = (props) => {
+      const Form = ({ handleFormSubmit }) => {
         return (
-          <form>
+          <form onSubmit={handleFormSubmit}>
             <input
               type="text"
               name="name"
@@ -66,35 +66,79 @@
       }
 
       function Favorites(props) {
+        const CAT1 =
+          'https://cdn.cloudflare.steamstatic.com/steam/apps/1627720/ss_ee0d56a44bfd75006aebd4e2c84c875d68b68647.1920x1080.jpg?t=1666835591';
+        const CAT2 =
+          'https://cdn.cloudflare.steamstatic.com/steam/apps/1627720/ss_3bb48e7309ec845d0a69cef05f901085a4714c53.1920x1080.jpg?t=1666835591';
+        const CAT3 =
+          'https://www.pcgamesn.com/wp-content/sites/pcgamesn/2022/08/lies-of-p-game-pass-tease-snitch-580x334.jpg';
+
+        const cats = [CAT1, CAT2];
+
         return (
-          <ul class="favorites">
-            <CatItem img="https://cdn.cloudflare.steamstatic.com/steam/apps/1627720/ss_3bb48e7309ec845d0a69cef05f901085a4714c53.1920x1080.jpg?t=1666835591" />
-            <CatItem img="https://www.pcgamesn.com/wp-content/sites/pcgamesn/2022/08/lies-of-p-game-pass-tease-snitch-580x334.jpg" />
+          <ul className="favorites">
+            {cats.map((cat) => {
+              return <CatItem img={cat} key={cat} />;
+            })}
           </ul>
         );
       }
 
       const MainCard = (props) => {
+        function handleHeartClick() {
+          console.log('하트 눌렀음');
+        }
+
+        function handleHeartMouseOver() {
+          console.log('하트 스쳐 지나감');
+        }
+
         return (
-          <div class="main-card">
+          <div className="main-card">
             <img src={props.img} alt="liesOfP" width="400" />
-            <button>🤍</button>
+            <button
+              onClick={handleHeartClick}
+              onMouseOver={handleHeartMouseOver}
+            >
+              🤍
+            </button>
           </div>
         );
       };
 
-      const app = (
-        <div>
-          <Title> 1번째 고양이 가라사대 </Title>
-          <Form />
-          <MainCard img="https://i.ytimg.com/vi/nh5-_w8YOQQ/maxresdefault.jpg" />
-          <Favorites />
-        </div>
-      );
+      const App = () => {
+        const CAT1 =
+          'https://cdn.cloudflare.steamstatic.com/steam/apps/1627720/ss_ee0d56a44bfd75006aebd4e2c84c875d68b68647.1920x1080.jpg?t=1666835591';
+        const CAT2 =
+          'https://cdn.cloudflare.steamstatic.com/steam/apps/1627720/ss_3bb48e7309ec845d0a69cef05f901085a4714c53.1920x1080.jpg?t=1666835591';
+        const CAT3 =
+          'https://www.pcgamesn.com/wp-content/sites/pcgamesn/2022/08/lies-of-p-game-pass-tease-snitch-580x334.jpg';
+
+        const [counter, setCounter] = React.useState(1);
+        console.log('카운터', counter);
+
+        const [image, setImage] = React.useState(CAT1);
+
+        function handleFormSubmit(event) {
+          event.preventDefault();
+          console.log('폼 전송됨');
+          setCounter(counter + 1);
+          setImage(CAT2);
+        }
+
+        return (
+          <div>
+            <Title> {counter}번째 고양이 가라사대 </Title>
+            <Form handleFormSubmit={handleFormSubmit} />
+            <MainCard img={image} />
+            <Favorites />
+          </div>
+        );
+      };
 
       const 여기다가그려 = document.querySelector('#app');
 
-      ReactDOM.render(app, 여기다가그려);
+      ReactDOM.render(<App />, 여기다가그려);
 
       // // 1. 좋아요 버튼 찾기
       // const likeButton = document.querySelector('.main-card button');
