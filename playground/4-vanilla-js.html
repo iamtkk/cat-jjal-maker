@@ -45,15 +45,32 @@
       };
 
       const Form = ({ handleFormSubmit }) => {
+        const [value, setValue] = React.useState('');
+
+        function handleInputChange(e) {
+          setValue(e.target.value.toUpperCase());
+        }
+
         return (
           <form onSubmit={handleFormSubmit}>
             <input
               type="text"
               name="name"
               placeholder="영어 대사를 입력해주세요"
+              value={value}
+              onChange={handleInputChange}
             />
             <button type="submit">생성</button>
           </form>
+        );
+      };
+
+      const MainCard = ({ img, handleHeartClick }) => {
+        return (
+          <div className="main-card">
+            <img src={img} alt="liesOfP" width="400" />
+            <button onClick={handleHeartClick}>🤍</button>
+          </div>
         );
       };
 
@@ -65,46 +82,15 @@
         );
       }
 
-      function Favorites(props) {
-        const CAT1 =
-          'https://cdn.cloudflare.steamstatic.com/steam/apps/1627720/ss_ee0d56a44bfd75006aebd4e2c84c875d68b68647.1920x1080.jpg?t=1666835591';
-        const CAT2 =
-          'https://cdn.cloudflare.steamstatic.com/steam/apps/1627720/ss_3bb48e7309ec845d0a69cef05f901085a4714c53.1920x1080.jpg?t=1666835591';
-        const CAT3 =
-          'https://www.pcgamesn.com/wp-content/sites/pcgamesn/2022/08/lies-of-p-game-pass-tease-snitch-580x334.jpg';
-
-        const cats = [CAT1, CAT2];
-
+      function Favorites({ favorites }) {
         return (
           <ul className="favorites">
-            {cats.map((cat) => {
+            {favorites.map((cat) => {
               return <CatItem img={cat} key={cat} />;
             })}
           </ul>
         );
       }
-
-      const MainCard = (props) => {
-        function handleHeartClick() {
-          console.log('하트 눌렀음');
-        }
-
-        function handleHeartMouseOver() {
-          console.log('하트 스쳐 지나감');
-        }
-
-        return (
-          <div className="main-card">
-            <img src={props.img} alt="liesOfP" width="400" />
-            <button
-              onClick={handleHeartClick}
-              onMouseOver={handleHeartMouseOver}
-            >
-              🤍
-            </button>
-          </div>
-        );
-      };
 
       const App = () => {
         const CAT1 =
@@ -115,23 +101,26 @@
           'https://www.pcgamesn.com/wp-content/sites/pcgamesn/2022/08/lies-of-p-game-pass-tease-snitch-580x334.jpg';
 
         const [counter, setCounter] = React.useState(1);
-        console.log('카운터', counter);
-
-        const [image, setImage] = React.useState(CAT1);
+        const [mainCat, setMainCat] = React.useState(CAT1);
+        const [favorites, setFavorites] = React.useState([CAT1, CAT2]);
 
         function handleFormSubmit(event) {
           event.preventDefault();
           console.log('폼 전송됨');
           setCounter(counter + 1);
-          setImage(CAT2);
+          setMainCat(CAT2);
+        }
+
+        function handleHeartClick() {
+          setFavorites([...favorites, CAT3]);
         }
 
         return (
           <div>
             <Title> {counter}번째 고양이 가라사대 </Title>
             <Form handleFormSubmit={handleFormSubmit} />
-            <MainCard img={image} />
-            <Favorites />
+            <MainCard img={mainCat} handleHeartClick={handleHeartClick} />
+            <Favorites favorites={favorites} />
           </div>
         );
       };
