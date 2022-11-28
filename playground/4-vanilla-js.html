@@ -44,11 +44,27 @@
         return <h1>{props.children}</h1>;
       };
 
-      const Form = ({ handleFormSubmit }) => {
+      const Form = () => {
+        const includesHangul = (text) => /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/i.test(text);
         const [value, setValue] = React.useState('');
+        const [errorMessage, setErrorMessage] = React.useState('');
 
         function handleInputChange(e) {
-          setValue(e.target.value.toUpperCase());
+          const userValue = e.target.value; // 입력값을 따로 변수로 빼준다
+          if (includesHangul(userValue)) {
+            setErrorMessage('한글은 입력할 수 없습니다.');
+          } else {
+            setErrorMessage('');
+          }
+          setValue(userValue.toUpperCase());
+        }
+
+        function handleFormSubmit(e) {
+          e.preventDefault();
+          setErrorMessage('');
+          if (value == '') {
+            setErrorMessage('빈 값으로 만들 수 없습니다.');
+          }
         }
 
         return (
@@ -61,8 +77,9 @@
               onChange={handleInputChange}
             />
             <button type="submit">생성</button>
+            <p style={{ color: 'red' }}>{errorMessage}</p>
           </form>
-        );
+        ); // errorMessage에 값이 있으때만 노출
       };
 
       const MainCard = ({ img, handleHeartClick }) => {
