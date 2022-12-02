@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>고양이 가라사대</title>
+    <title>LiesOfP 가라사대</title>
   </head>
   <style>
     body {
@@ -38,13 +38,11 @@
     ></script>
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
     <script type="text/babel">
-      console.log('야옹');
-
       const Title = (props) => {
         return <h1>{props.children}</h1>;
       };
 
-      const Form = () => {
+      const Form = ({ updateMainCat }) => {
         const includesHangul = (text) => /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/i.test(text);
         const [value, setValue] = React.useState('');
         const [errorMessage, setErrorMessage] = React.useState('');
@@ -64,7 +62,9 @@
           setErrorMessage('');
           if (value == '') {
             setErrorMessage('빈 값으로 만들 수 없습니다.');
+            return;
           }
+          updateMainCat();
         }
 
         return (
@@ -82,11 +82,11 @@
         ); // errorMessage에 값이 있으때만 노출
       };
 
-      const MainCard = ({ img, handleHeartClick }) => {
+      const MainCard = ({ img, onHeartClick }) => {
         return (
           <div className="main-card">
             <img src={img} alt="liesOfP" width="400" />
-            <button onClick={handleHeartClick}>🤍</button>
+            <button onClick={onHeartClick}>🤍</button>
           </div>
         );
       };
@@ -117,15 +117,17 @@
         const CAT3 =
           'https://www.pcgamesn.com/wp-content/sites/pcgamesn/2022/08/lies-of-p-game-pass-tease-snitch-580x334.jpg';
 
-        const [counter, setCounter] = React.useState(1);
+        const [counter, setCounter] = React.useState(
+          Number(localStorage.getItem('counter'))
+        );
         const [mainCat, setMainCat] = React.useState(CAT1);
         const [favorites, setFavorites] = React.useState([CAT1, CAT2]);
 
-        function handleFormSubmit(event) {
-          event.preventDefault();
-          console.log('폼 전송됨');
-          setCounter(counter + 1);
+        function updateMainCat() {
           setMainCat(CAT2);
+          // const nextCounter = counter + 1;
+          setCounter(counter + 1);
+          localStorage.setItem('counter', counter);
         }
 
         function handleHeartClick() {
@@ -134,9 +136,9 @@
 
         return (
           <div>
-            <Title> {counter}번째 고양이 가라사대 </Title>
-            <Form handleFormSubmit={handleFormSubmit} />
-            <MainCard img={mainCat} handleHeartClick={handleHeartClick} />
+            <Title> {counter}번째 LiesOf P </Title>
+            <Form updateMainCat={updateMainCat} />
+            <MainCard img={mainCat} onHeartClick={handleHeartClick} />
             <Favorites favorites={favorites} />
           </div>
         );
